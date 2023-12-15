@@ -42,7 +42,7 @@ fs.writeFileSync(
 //delete this file
 const indexPath = path.join(__dirname, 'index.js')
 //console.log(indexPath)
-fs.unlink(ind, (err) => {
+fs.unlink(indexPath, (err) => {
   if (err) throw err;
 });
 console.log("Success! Your new project is ready.");
