@@ -8,7 +8,7 @@ const path = require("path");
 
 // The first argument will be the project name.
 const projectName = process.argv[2];
-//console.log(projectName)
+console.log(projectName)
 // Create a project directory with the project name.
 const currentDir = process.cwd();
 //console.log(currentDir)
