@@ -1,8 +1,6 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import path from 'path';
 
 let definition: any;
-let apiPath = path.join(__dirname, '../../dist/**/*.js' )
 
 definition = {
     openapi: '3.0.0',
@@ -31,7 +29,7 @@ definition = {
 }
 const options = {
     definition,
-    apis: ['./src/**/*.ts', apiPath],
+    apis: ['./src/**/*.ts'],
 };
 const swaggerSpec = swaggerJsdoc(options);
 
