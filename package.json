@@ -10,7 +10,7 @@
     ".gitignore",
     ".npmignore",
     "src",
-    "index.ts",
+    "index.js",
     "package.json",
     "package-lock.json"
   ],
