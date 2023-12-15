@@ -41,7 +41,7 @@ fs.writeFileSync(
 
 //delete this file
 const indexPath = path.join(__dirname, 'index.js')
-//console.log(indexPath)
+console.log(indexPath)
 fs.unlink(indexPath, (err) => {
   if (err) throw err;
 });
