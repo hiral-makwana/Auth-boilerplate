@@ -5,7 +5,7 @@
     "target": "es6",
     "moduleResolution": "node",
     "outDir": "dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -21,7 +21,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.json"
+    "src/**/*.json",
+    "src/**/*.js"
   ],
   "exclude": [
     "node_modules",

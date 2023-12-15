@@ -1,10 +1,10 @@
 {
   "name": "auth-boilerplate",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "",
   "main": "src/server.ts",
   "bin": {
-    "auth-boilerplate": "index.js"
+    "auth-boilerplate": "src/index.js"
   },
   "files": [
     ".gitignore",
