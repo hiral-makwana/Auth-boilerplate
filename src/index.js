@@ -117,10 +117,10 @@ async function run() {
   and the files we want to create.*/
   const templateDir = path.resolve(__dirname, "../");
   fs.cpSync(templateDir, projectDir, { recursive: true });
-  const indexPath = path.join(__dirname, 'index.js')
-  fs.unlink(indexPath, (err) => {
-    if (err) throw err;
-  });
+  // const indexPath = path.join(__dirname, 'index.js')
+  // fs.unlink(indexPath, (err) => {
+  //   if (err) throw err;
+  // });
 
   console.log("Success! Your new project is ready.");
   console.log(`Created ${projectName} at ${projectDir}`);
