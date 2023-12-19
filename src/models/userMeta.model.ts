@@ -1,15 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+import userMetaAttributes from './interface/uerMeta.interface';
+import { sequelize } from "./index";
 
-interface userMetaInterface {
-    id?: number,
-    userId?: number,
-    key?: string,
-    value?: string,
-    createdBy?: number,
-    updatedBy?: number
+export class UserMeta extends Model<userMetaAttributes>
+    implements userMetaAttributes {
+    id: number;
+    userId: number;
+    key: string;
+    value: string;
+    createdBy: number;
+    updatedBy: number
 }
 
-let keys = {
+UserMeta.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -30,26 +33,9 @@ let keys = {
     updatedBy: {
         type: DataTypes.INTEGER
     },
-}
-
-class UserMeta extends Model<userMetaInterface>
-    implements UserMeta {
-    id!: number
-    userId!: number
-    key!: string
-    value!: string
-    createdBy!: number
-    updatedBy!: number
-}
-
-export const initUserMeta = (sequelize) => {
-    UserMeta.init(keys, {
+},
+    {
         sequelize: sequelize,
-        tableName: 'user_meta',
-        modelName: 'userMeta',
-    }).sync({ alter: true }).then((r: any) => {
-        console.log("Sync true", r);
-    }).catch((e: any) => { throw new Error(e); });
-}
-
-export default UserMeta
+        tableName: "user_meta",
+        modelName: 'UserMeta'
+    });

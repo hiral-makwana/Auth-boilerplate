@@ -6,13 +6,6 @@ import fs from 'fs'
 import handlebars from 'handlebars';
 import { sendEmail } from '../helper/emailConfig'
 
-export function setSequelizeInstance(instance: Sequelize) {
-    global.sequelize = instance
-}
-const getModels = () => {
-    return UserLib
-}
-
 const dynamicFieldFunction = (customFields?: Object, validate?: Boolean) => {
     return Object.entries(customFields || {}).map(([fieldName, fieldType]) => {
         if (Joi.isSchema(fieldType)) {
@@ -70,7 +63,7 @@ const readHTMLFile = function (path: any, cb: any) {
 }
 const generateOtpHtmlMessage = async (to: any, custom: any, template: any, emailSubject: any, templateData: any) => {
     return new Promise((resolve, reject) => {
-        if (custom == 'true') {
+        if (custom == true) {
             const compiledTemplate = handlebars.compile(template);
             const htmlToSend = compiledTemplate(templateData);
             const subject = emailSubject;
@@ -123,4 +116,4 @@ function updateConfigFromJson(filePath: any) {
     }
 }
 
-export { getModels, dynamicFieldFunction, generateRandomOtp, generateHash, generateOtpHtmlMessage, convertHtmlToString, updateConfigFromJson }
+export { dynamicFieldFunction, generateRandomOtp, generateHash, generateOtpHtmlMessage, convertHtmlToString, updateConfigFromJson }

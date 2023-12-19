@@ -1,3 +1,10 @@
-import createRoutes from "./user.route";
+import express, { Router } from 'express';
+import authRoutes from './auth.route';
+import userRoutes from './user.route';
 
-export default createRoutes
+const routes: Router = express.Router();
+
+routes.use('/', authRoutes);
+routes.use('/', userRoutes);
+
+export default routes;

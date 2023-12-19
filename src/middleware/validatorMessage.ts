@@ -38,7 +38,7 @@ const HandleErrorMessage = async (err: any, req: Request, res: Response, next: N
 
         }
     } catch (e: any) {
-        return res.status(400).send({ status: false, message: e.message })
+        return res.status(500).send({ status: false, message: e.message })
     }
 }
 

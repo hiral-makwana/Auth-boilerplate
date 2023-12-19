@@ -7,29 +7,16 @@ let emailConfig = null;
 /**
  * Initialize the email configuration.
  */
-function initEmail() {
-    if (emailConfig) {
-        throw new Error('Email configuration is already initialized. Call updateEmailConfig() to modify settings.');
+
+emailConfig = {
+    host: config.mailConfig && config.mailConfig.host ? config.mailConfig.host : 'localhost',
+    port: config.mailConfig && config.mailConfig.port ? config.mailConfig.port : 25,
+    //secure: config.mailConfig && config.mailConfig?.secure ? config.mailConfig.secure : false,
+    auth: {
+        user: config.mailConfig && config.mailConfig.user ? config.mailConfig.user : null,
+        pass: config.mailConfig && config.mailConfig.password ? config.mailConfig.password : null,
     }
-
-    // if (!config || typeof config !== 'object') {
-    //     throw new Error('Invalid email configuration. Provide an email configuration object.');
-    // }
-
-    emailConfig = {
-        host: config.mailConfig && config.mailConfig.host ? config.mailConfig.host : 'localhost',
-        port: config.mailConfig && config.mailConfig.port ? config.mailConfig.port : 25,
-        //secure: config.mailConfig && config.mailConfig?.secure ? config.mailConfig.secure : false,
-        auth: {
-            user: config.mailConfig && config.mailConfig.user ? config.mailConfig.user : null,
-            pass: config.mailConfig && config.mailConfig.password ? config.mailConfig.password : null,
-        }
-    };
-
-    if (!emailConfig.auth.user || !emailConfig.auth.pass) {
-        throw new Error('Email username and password are required in the configuration.');
-    }
-}
+};
 
 /**
  * Update the email configuration dynamically.
@@ -76,9 +63,9 @@ function updateEmailConfig(config: any) {
 function sendEmail(to: any, subject: string, message: any) {
     return new Promise<void>((resolve, reject) => {
         let transporter = null;
-        if (process.env.SMTP == 'true') {
+        if (config.SMTP == true) {
             if (!emailConfig) {
-                return Promise.reject(new Error('Email configuration is not initialized. Call initEmail() to set up the email configuration.'));
+                return Promise.reject(new Error('Email configuration is not initialized. update the config file to set up the email configuration.'));
             }
             // Create a Nodemailer transporter with the provided email configuration
             transporter = nodemailer.createTransport(emailConfig);
@@ -112,7 +99,6 @@ function sendEmail(to: any, subject: string, message: any) {
 }
 
 export {
-    initEmail,
     updateEmailConfig,
     sendEmail,
 };

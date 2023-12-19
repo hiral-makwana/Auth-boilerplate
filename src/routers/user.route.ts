@@ -1,60 +1,27 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import { Router } from 'express';
 import * as userController from '../controller/user.controller';
-import { RoutesInterface } from '../helper/interfaces';
-import userValidator from '../validator/user.validator'
-import HandleErrorMessage from '../middleware/validatorMessage';
-import i18n from '../helper/i18n'
+import userValidator from '../validator/user.validator';
 import { verifyToken } from '../middleware/verifyToken';
+import { upload } from '../helper/mediaUpload';
 
-/**
- * @param {RoutesInterface} options
- */
-function createRoutes(options?: RoutesInterface) {
-    const router = express.Router();
-    router.use(bodyParser.json());
-    router.use(i18n.init);
-    /** Get all user's */
-    router.get('/list', userController.getListOfUser)
+const router = Router();
 
-    /**user Registration */
+/** Get all users */
+router.get('/list', userController.getListOfUser);
 
-    router.post('/register', options && options.registerUser &&
-        options.registerUser.validator && Object.keys(options.registerUser.validator).length ?
-        userValidator.registerUser(options.registerUser.validator, options.validator) :
-        userValidator.registerUser(global.customFields, options?.validator),
-        options?.registerUser && options.registerUser.controller ? options.registerUser.controller : userController.registerUser)
+/** Change Password after login */
+router.post('/changePassword', userValidator.changePw(), verifyToken, userController.changePassword);
 
-    /**verify otp received in email */
-    router.post('/verifyOtp', userValidator.verifyOTP(), userController.verifyOTP)
+/** Check validations */
+router.post('/checkValidation', userValidator.checkValid(), verifyToken, userController.checkValidation);
 
-    /**Resend OTP on email */
-    router.post('/resendOtp', userValidator.resendOTP(), userController.resendOTP)
+/** Delete user API */
+router.delete('/deleteUser/:userId', verifyToken, userController.deleteUser);
 
-    /**Forgot password using Email */
-    router.post('/forgotPassword', userValidator.forgotPw(), userController.forgotPassword)
+/** HTML to String */
+router.post('/htmlToString', userController.convertHtmlToString);
 
-    /**Reset password */
-    router.post('/resetPassword', userValidator.resetPw(), userController.resetPassword)
+/** Upload Profile */
+router.post('/upload/:userId', verifyToken, upload.single('avatar'), userController.profileUpload);
 
-    /** Login */
-    router.post('/login', userValidator.login(), userController.logIn)
-
-    /**Change Password after login */
-    router.post('/changePassword', userValidator.changePw(), verifyToken, userController.changePassword)
-
-    /**Check validations*/
-    router.post('/checkValidation', userValidator.checkValid(), userController.checkValidation)
-
-    /** Delete user api*/
-    router.delete('/deleteUser/:userId', userController.deleteUser)
-
-    /** file upload */
-    router.put('/updateEmailConfig', userValidator.emailConfig(), userController.updateConfig)
-
-    router.post('/htmlToString', userController.convertHtmlToString)
-    router.use(HandleErrorMessage)
-    return router;
-}
-
-export default createRoutes
+export default router;

@@ -1,5 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-
+import config from '../config/config.json';
 let definition: any;
 
 definition = {
@@ -20,10 +20,10 @@ definition = {
     },
     servers: [
         {
-            url: process.env.DEFAULT,
+            url: config.DEFAULT_ROUTE,
         },
         {
-            url: process.env.SWAGGER,
+            url: config.API_BASE_PREFIX,
         },
     ]
 }

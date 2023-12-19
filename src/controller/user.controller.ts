@@ -1,10 +1,10 @@
 import { Request } from "express";
-import User, { status } from '../models/user.model';
+import { User, status } from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { sendEmail, updateEmailConfig } from '../helper/emailConfig'
 import { keyName, requestType } from "../helper/constant";
 import { generateRandomOtp, generateHash, generateOtpHtmlMessage } from '../helper/utils'
-import UserMeta from '../models/userMeta.model';
+import { UserMeta } from '../models/userMeta.model';
 import { generateToken } from '../helper/jwtToken';
 import config from '../config/config.json';
 import Sequelize, { Op } from 'sequelize';
@@ -57,7 +57,7 @@ export const getListOfUser = async (req: Request, res: any) => {
         return res.status(200).send({ status: true, message: res.__("SUCCESS_FETCHED"), data: allData })
     } catch (e) {
         console.log(e);
-        return res.status(400).send({ status: false, message: e.message })
+        return res.status(500).send({ status: false, message: e.message })
     }
 }
 /**
@@ -134,8 +134,8 @@ export const registerUser = async (req: any, res: any) => {
                 }
                 await UserMeta.create(metaObj)
                 let customOtpHtmlTemplate = otpHtmlTemplatePath
-                //process.env.CUSTOM_TEMPLATE == 'true' ? req.body.customOtpHtmlTemplate : otpHtmlTemplatePath;
-                if (process.env.CUSTOM_TEMPLATE == 'true') {
+                //config.CUSTOM_TEMPLATE == true ? req.body.customOtpHtmlTemplate : otpHtmlTemplatePath;
+                if (config.CUSTOM_TEMPLATE == true) {
                     if (reqData.customOtpHtmlTemplate == undefined || reqData.customOtpHtmlTemplate == '') {
                         return res.status(200).send({ status: true, message: res.__("TEMPLATE_NOT_DEFINE") })
                     }
@@ -147,7 +147,7 @@ export const registerUser = async (req: any, res: any) => {
                     username: jsonObj.firstName,
                     otpCode: getRandomOtp
                 }
-                const otpHtmlMessage = await generateOtpHtmlMessage(jsonObj.email, process.env.CUSTOM_TEMPLATE, customOtpHtmlTemplate, "Registration done successfully.Here is your OTP for varification.", templatedata);
+                const otpHtmlMessage = await generateOtpHtmlMessage(jsonObj.email, config.CUSTOM_TEMPLATE, customOtpHtmlTemplate, "Registration done successfully.Here is your OTP for varification.", templatedata);
 
                 return res.status(200).send({ status: true, message: res.__("SUCCESS_CREATE") })
             }
@@ -224,7 +224,7 @@ export const verifyOTP = async (req: any, res: any) => {
         const user: any = await User.findOne({ where: { email }, raw: true });
 
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
                 message: res.__("USER_NOT_FOUND"),
             });
@@ -320,7 +320,7 @@ export const resendOTP = async (req: any, res: any) => {
         const user: any = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
                 message: res.__("USER_NOT_FOUND"),
             });
@@ -334,7 +334,7 @@ export const resendOTP = async (req: any, res: any) => {
 
         // Send the new OTP to the user's email
         let customTemplate = resendOtpTemplatePath
-        if (process.env.CUSTOM_TEMPLATE == 'true') {
+        if (config.CUSTOM_TEMPLATE == true) {
             if (customOtpHtmlTemplate == undefined || customOtpHtmlTemplate == '') {
                 return res.status(200).send({ status: true, message: res.__("TEMPLATE_NOT_DEFINE") })
             }
@@ -346,7 +346,7 @@ export const resendOTP = async (req: any, res: any) => {
             username: user.firstName,
             otpCode: newOTP
         }
-        const otpHtmlMessage = await generateOtpHtmlMessage(user.email, process.env.CUSTOM_TEMPLATE, customTemplate, "OTP Verification.", templatedata);
+        const otpHtmlMessage = await generateOtpHtmlMessage(user.email, config.CUSTOM_TEMPLATE, customTemplate, "OTP Verification.", templatedata);
 
 
         return res.status(200).json({
@@ -412,7 +412,7 @@ export const forgotPassword = async (req: any, res: any) => {
         const user: any = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
                 message: res.__("USER_NOT_FOUND"),
             });
@@ -497,7 +497,7 @@ export const resetPassword = async (req: any, res: any) => {
         const user: any = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
                 message: res.__("USER_NOT_FOUND"),
             });
@@ -886,12 +886,12 @@ export const deleteUser = async (req: any, res: any) => {
         const userId = req.params.userId;
         const user: any = await User.findOne({ where: { id: userId } });
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
                 message: res.__("USER_NOT_FOUND"),
             });
         }
-        if (!process.env.HARD_DELETE) {
+        if (!config.HARD_DELETE) {
             const modelAttributes = Object.keys(User.getAttributes());
             if (!modelAttributes.includes('isDeleted')) {
                 return res.status(500).json({ status: false, message: res.__("FIELD_NOT_FOUND") });
@@ -905,7 +905,7 @@ export const deleteUser = async (req: any, res: any) => {
             if (softDeleteResult[0] === 1) {
                 return res.status(200).json({ status: true, message: res.__("USER_DELETED") });
             } else {
-                return res.status(400).json({ status: false, message: res.__("USER_NOT_FOUND") });
+                return res.status(404).json({ status: false, message: res.__("USER_NOT_FOUND") });
             }
         } else {
             const result = await User.destroy({ where: { id: userId } });
@@ -913,7 +913,7 @@ export const deleteUser = async (req: any, res: any) => {
             if (result === 1) {
                 return res.status(200).json({ status: true, message: res.__("USER_DELETED") });
             } else {
-                return res.status(400).json({ status: false, message: res.__("USER_NOT_FOUND") });
+                return res.status(404).json({ status: false, message: res.__("USER_NOT_FOUND") });
             }
         }
     } catch (e) {
@@ -933,7 +933,7 @@ export const profileUpload = async (req: any, res: any) => {
         }
         const userAttributes = Object.keys(User.getAttributes());
         if (!userAttributes.includes('profileImage')) {
-            return res.status(500).json({ status: false, message: res.__('IMAGE_FIELD_NOT_EXIST') });
+            return res.status(400).json({ status: false, message: res.__('IMAGE_FIELD_NOT_EXIST') });
         }
 
         console.log(profileImage)
@@ -946,7 +946,7 @@ export const profileUpload = async (req: any, res: any) => {
         if (updatedRows === 0) {
             return res.status(404).json({ status: false, message: res.__('USER_NOT_FOUND') });
         }
-        return res.status(200).json({ status: true, message: res.__('IMAGE_UPLOADED'), data: process.env.BASE_URL + `/${profileImage.destination}` + profileImage.filename });
+        return res.status(200).json({ status: true, message: res.__('IMAGE_UPLOADED'), data: config.BASE_URL + `/${profileImage.destination}` + profileImage.filename });
     } catch (e) {
         console.error(e);
         return res.status(500).json({

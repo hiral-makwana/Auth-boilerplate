@@ -2,62 +2,41 @@
  * @file server.ts
  * @description Main file for setting up the Express server and defining routes.
  */
-
-// Import necessary modules: 'express', 'Sequelize', 'http', and functions from './index'
-import express, { Express } from 'express';
-import Sequelize from 'sequelize';
+import express, { Application, Request, Response } from 'express';
 import http from 'http';
-import {
-    createModel,
-    getModels,
-    createRoutes,
-    swaggerRoute,
-    updateEmailConfig,
-    initEmail,
-    profileUpload,
-    createUploader
-} from './app';
+import apiRoutes from './routers/index.route';
+import swaggerRoute from './routers/swaggerRoute';
+import config from './config/config.json';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import i18n from './helper/i18n';
+import handleErrorMessage from './middleware/validatorMessage';
+import { db } from './models/index';
 
-// Create a new Sequelize instance for database connection
-const sequelize = new Sequelize.Sequelize(process.env.DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
-    dialect: 'mysql',
-    host: process.env.HOST,
-    logging: false
-}); // Dynamic mysql configurations
-
-// Authenticate the Sequelize instance
-sequelize.authenticate().then(() => {
-    console.log("Db Connected");
-}).catch((err) => {
-    console.log("Db Error", err.message);
-});
-
-/** Model creation */
-// Create the 'users' model with specified attributes
-let createModeldata = createModel('users', sequelize, {});
+db.sequelize.sync({ alter: true })
+    .then(() => {
+        console.log('Database synchronized');
+    })
+    .catch((error: any) => {
+        console.error('Error syncing database:', error);
+    });
 
 // Create an Express application
-const app: Express = express();
-
-// Custom validator configuration
-const customValidator = {
-    validator: true
-};
+const app: Application = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(i18n.init);
 
 // Create routes based on the custom validator configuration
-const router = createRoutes();
-app.use('/', router);
+app.use('/', apiRoutes, swaggerRoute);
 
-// Use the swaggerRoute for API documentation
-app.use('/', swaggerRoute);
-
-// Configure file upload using multer
-const upload = createUploader({ uploadFolder: 'src/pictures/' });
+// Handle error message
+app.use(handleErrorMessage);
 app.use('/src/pictures/', express.static(__dirname + '/pictures/'));
-app.post('/upload/:userId', upload, profileUpload);
 
 // Define a simple root route
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send({
         status: true,
         message: "Hello! there.."
@@ -65,12 +44,10 @@ app.get('/', (req, res) => {
 });
 
 // Create an HTTP server using the Express app
-const server = http.createServer(app);
+const server: http.Server = http.createServer(app);
 
-// Start the server on port 7000
-const port = process.env.PORT || 3000
+// Start the server
+const port: number = config.PORT || 3000;
 server.listen(port, () => {
     console.log(`Server is started on port:`, port);
 });
-
-let d = initEmail();

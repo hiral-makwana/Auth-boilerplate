@@ -33,5 +33,6 @@
 	"HTML_CONVERTED": "HTML converted to string successfully.",
 	"HTML_REQUIRED": "HTML content is required.",
 	"SUCCESS_FETCHED": "SUCCESS_FETCHED",
-	"VALIDATION_MESSAGES": "VALIDATION_MESSAGES"
+	"VALIDATION_MESSAGES": "VALIDATION_MESSAGES",
+	"TOKEN_EXPIRED": "jsonToken is expired."
 }

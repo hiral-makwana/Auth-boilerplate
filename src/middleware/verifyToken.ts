@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { config } from '../helper/constant';
+import config from '../config/config.json';
 
 export function verifyToken(req: any, res: any, next: any) {
     const { authorization } = req.headers
@@ -14,8 +14,14 @@ export function verifyToken(req: any, res: any, next: any) {
                     });
                 }
 
-                jwt.verify(token, process.env.JWT_SECRET, (err: any, decodedToken: any) => {
+                jwt.verify(token, config.JWT_SECRET, (err: any, decodedToken: any) => {
                     if (err) {
+                        if (err.name === 'TokenExpiredError') {
+                            return res.status(401).json({
+                                status: false,
+                                message: res.__("TOKEN_EXPIRED"),
+                            });
+                        }
                         return res.status(401).json({
                             status: false,
                             message: res.__("INVALID_TOKEN"),
