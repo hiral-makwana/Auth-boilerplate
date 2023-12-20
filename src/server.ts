@@ -28,8 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(i18n.init);
 
-// Create routes based on the custom validator configuration
-app.use('/', apiRoutes, swaggerRoute);
+// Create routes
+app.use('/', apiRoutes, swaggerRoute); // update value of API_BASE_PREFIX in configuration file to access swagger
 
 // Handle error message
 app.use(handleErrorMessage);

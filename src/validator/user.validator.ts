@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { dynamicFieldFunction } from '../helper/utils';
 import i18n from '../helper/i18n';
 import { ObjectSchema } from 'joi';
+import { passwordRegex } from '../helper/constant';
 
 const validateSchema = (schema: ObjectSchema<any>) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +34,7 @@ export default {
         const defaultSchema = Joi.object().keys({
             firstName: Joi.string().required().allow("", null),
             email: Joi.string().email().required(),
-            password: Joi.string().pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/)
+            password: Joi.string().pattern(passwordRegex)
                 .message('Password must contain upper, lower, digit, 8+ chars.').required(),
             status: Joi.string(),
             isVerified: Joi.number(),
@@ -73,7 +74,7 @@ export default {
     resetPw: () => validateSchema(
         Joi.object().keys({
             email: Joi.string().email().required(),
-            password: Joi.string().pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/)
+            password: Joi.string().pattern(passwordRegex)
                 .message('Password must contain upper, lower, digit, 8+ chars.').required()
         })
     ),
@@ -88,7 +89,7 @@ export default {
     changePw: () => validateSchema(
         Joi.object().keys({
             oldPassword: Joi.string().required(),
-            newPassword: Joi.string().pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/)
+            newPassword: Joi.string().pattern(passwordRegex)
                 .message('Password must contain upper, lower, digit, 8+ chars.').required()
         })
     ),
@@ -107,22 +108,4 @@ export default {
             password: Joi.string().required()
         })
     )
-}
-
-// Function to generate validation for custom fields dynamically
-function generateCustomFieldValidations(customFields: any) {
-    const customValidations: any = {};
-
-    if (customFields) {
-        for (const [fieldName, type] of Object.entries(customFields)) {
-            // Assert 'type' to a string before using it as an index
-            if (typeof type === 'string' && Joi[type.toLowerCase()]) {
-                customValidations[fieldName] = Joi[type.toLowerCase()]().required();
-            } else {
-                // Handle invalid 'type' here
-                console.error(`Invalid validation type '${type}' for field '${fieldName}'`);
-            }
-        }
-    }
-    return customValidations;
 }

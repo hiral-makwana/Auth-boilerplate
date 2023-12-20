@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { Sequelize, Op, QueryTypes, DataTypes } from 'sequelize';
+import { Sequelize, Op, QueryTypes } from 'sequelize';
 import config from '../config/config.json';
 
 const basename = path.basename(__filename);

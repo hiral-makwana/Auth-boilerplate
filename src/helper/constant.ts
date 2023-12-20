@@ -5,11 +5,6 @@ const requestType = {
     FORGOT: 'forgot'
 }
 
-const status = {
-    ACTIVE: 'active',
-    DEACTIVE: 'deactive',
-    DELETED: 'deleted',
-};
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
 
-export { keyName, requestType, passwordRegex, status} 
+export { keyName, requestType, passwordRegex } 
