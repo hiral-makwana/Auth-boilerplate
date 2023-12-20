@@ -42,7 +42,7 @@ async function main() {
         console.log('Installing dependencies...');
         execSync('npm install');
 
-        const filesToDelete = ['src/index.js', '.npmignore'];
+        const filesToDelete = ['src/index.ts', '.npmignore'];
         console.log('Removing useless files');
         execSync('npx rimraf ./.git');
 

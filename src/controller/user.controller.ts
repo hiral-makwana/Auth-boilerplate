@@ -22,6 +22,8 @@ const resendOtpTemplatePath = path.join('src', 'resendOtpTemplate.html');
 *   get:
 *     summary: Get a list of users
 *     tags: [Users]
+*     security:
+*       - bearerAuth: []
 *     parameters:
 *       - in: header
 *         name: Accept-Language
@@ -745,6 +747,8 @@ export const changePassword = async (req: any, res: any) => {
 *         required: false
 *         schema:
 *           type: string
+*     security:
+*       - bearerAuth: []
 *     requestBody:
 *       description: Validation data
 *       required: true
@@ -838,6 +842,8 @@ export const checkValidation = async (req: any, res: any) => {
 *   delete:
 *     summary: Delete a user by ID
 *     tags: [Users]
+*     security:
+*       - bearerAuth: []
 *     parameters:
 *       - in: header
 *         name: Accept-Language
@@ -924,6 +930,66 @@ export const deleteUser = async (req: any, res: any) => {
         });
     }
 }
+/**
+* @swagger
+* tags:
+*   name: User
+*   description: Authentication APIs
+* /profile-upload/{userId}:
+*   post:
+*     summary: Upload profile image for a user
+*     tags: [User]
+*     parameters:
+*       - in: path
+*         name: userId
+*         description: ID of the user
+*         required: true
+*         schema:
+*           type: integer
+*     security:
+*       - bearerAuth: []
+*     requestBody:
+*       description: Profile image to upload
+*       required: true
+*       content:
+*         multipart/form-data:
+*           schema:
+*             type: object
+*             properties:
+*               profileImage:
+*                 type: string
+*                 format: binary
+*     responses:
+*       200:
+*         description: Successful response with profile image details
+*         content:
+*           application/json:
+*             example:
+*               status: true
+*               message: Profile image uploaded successfully
+*               data: http://example.com/uploads/user123_profile.jpg
+*       400:
+*         description: Bad request or image not selected
+*         content:
+*           application/json:
+*             example:
+*               status: false
+*               message: Image not selected
+*       404:
+*         description: User not found
+*         content:
+*           application/json:
+*             example:
+*               status: false
+*               message: User not found
+*       500:
+*         description: Internal server error
+*         content:
+*           application/json:
+*             example:
+*               status: false
+*               message: Server error during image upload
+*/
 export const profileUpload = async (req: any, res: any) => {
     try {
         const userId = req.params.userId;
