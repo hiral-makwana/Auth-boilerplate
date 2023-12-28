@@ -4,7 +4,16 @@ const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
 const { execSync } = require('child_process');
-const { createReadme } = require('./bin/readme');
+
+async function createReadme(answers, projectDir) {
+    const readmeContent = `# ${answers.name}
+
+## Project Description
+${answers.description}`;
+
+    const readmePath = path.join(projectDir, "README.md");
+    fs.writeFileSync(readmePath, readmeContent, 'utf-8');
+}
 
 // The first argument will be the project name.
 const projectName = process.argv[2];
@@ -44,14 +53,14 @@ async function packagePrompts() {
 async function run() {
     const answers = await packagePrompts();
 
-    const templateDir = path.resolve(__dirname, "../");
+    const templateDir = path.resolve(__dirname, "../../");
     fs.cpSync(templateDir, projectDir, { recursive: true });
     process.chdir(projectDir);
-    
+
     console.log('Installing dependencies...');
     execSync('npm install');
-    
-    const filesToDelete = ['src/index.ts', '.npmignore', 'src/bin/readme.ts'];
+
+    const filesToDelete = ['src/bin/index.js', '.npmignore'];
     console.log('Removing useless files');
 
     // Delete individual files
