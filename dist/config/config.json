@@ -1,0 +1,24 @@
+{
+    "PORT": 8000,
+    "JWT_SECRET": "ja932uwsjsiw98hjsdh090",
+    "JWT_EXPIRATION_TIME": "1h",
+    "DEFAULT_ROUTE": "/",
+    "API_BASE_PREFIX": "/",
+    "BASE_URL": "localhost:7000",
+    "HARD_DELETE": false,
+    "CUSTOM_TEMPLATE": true,
+    "UPLOAD_DIR": "src/pictures/",
+    "database": {
+        "host": "localhost",
+        "dbName": "auth_apis",
+        "dbUser": "root",
+        "dbPassword": ""
+    },
+    "SMTP": true,
+    "mailConfig": {
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "user": "oma.fisher43@ethereal.email",
+        "password": "9apvqjQBp6kY1K6vCu"
+    }
+}

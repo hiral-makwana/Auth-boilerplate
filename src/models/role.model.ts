@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import roleAttributes from './interface/Role.interface';
+import roleAttributes from './interface/role.interface';
 import { sequelize } from "./index";
 
 export class Role extends Model<roleAttributes>

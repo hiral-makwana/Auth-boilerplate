@@ -9,8 +9,8 @@ import swaggerRoute from './routers/swaggerRoute';
 import config from './config/config.json';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import i18n from './helper/i18n';
-import handleErrorMessage from './middleware/validatorMessage';
+import i18n from './helper/locale.helper';
+import handleErrorMessage from './middleware/validate';
 import { db } from './models/index';
 
 db.sequelize.sync({ alter: true })
@@ -43,11 +43,10 @@ app.get('/', (req: Request, res: Response) => {
     });
 });
 
-// Create an HTTP server using the Express app
-const server: http.Server = http.createServer(app);
-
 // Start the server
 const port: number = config.PORT || 3000;
-server.listen(port, () => {
+let server = app.listen(port, () => {
     console.log(`Server is started on port:`, port);
 });
+
+export default server

@@ -1,6 +1,6 @@
-export default interface notificationAttributes {
-    id: number;
-    roleName: string;
-    createdBy: number;
-    updatedBy: number;
+export default interface roleAttributes {
+    id: number,
+    roleName: string,
+    createdBy: number,
+    updatedBy: number
 }

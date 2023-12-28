@@ -1,43 +1,9 @@
 import { Sequelize } from 'sequelize';
-import { UserLib } from "./interfaces";
 import { Joi } from "celebrate";
 import bcrypt from 'bcrypt';
 import fs from 'fs'
 import handlebars from 'handlebars';
-import { sendEmail } from '../helper/emailConfig'
-
-const dynamicFieldFunction = (customFields?: Object, validate?: Boolean) => {
-    return Object.entries(customFields || {}).map(([fieldName, fieldType]) => {
-        if (Joi.isSchema(fieldType)) {
-            return { [fieldName]: fieldType };
-        }
-
-        let schema: any;
-        // Create schema based on field type
-        switch (String(fieldType).toUpperCase()) {
-            case 'STRING':
-                schema = Joi.string().allow(null, "");
-                break;
-            case 'INTEGER':
-                schema = Joi.number().integer().allow(null);
-                break;
-            case 'BOOLEAN':
-                schema = Joi.boolean();
-                break;
-            case 'ARRAY':
-                schema = Joi.array().items(Joi.any()).allow(null);
-                break;
-            case 'DATE':
-                schema = Joi.date().allow(null, "");
-                break;
-            default:
-                throw new Error(`Unsupported field type: ${fieldType}`);
-        }
-
-        return { [fieldName]: validate ? schema.required() : schema };
-    });
-};
-
+import { sendEmail } from './email.helper'
 
 const generateRandomOtp = async (n: any) => {
     if (n <= 0) return 0;
@@ -116,4 +82,4 @@ function updateConfigFromJson(filePath: any) {
     }
 }
 
-export { dynamicFieldFunction, generateRandomOtp, generateHash, generateOtpHtmlMessage, convertHtmlToString, updateConfigFromJson }
+export { generateRandomOtp, generateHash, generateOtpHtmlMessage, convertHtmlToString, updateConfigFromJson }

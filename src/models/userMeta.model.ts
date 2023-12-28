@@ -4,12 +4,12 @@ import { sequelize } from "./index";
 
 export class UserMeta extends Model<userMetaAttributes>
     implements userMetaAttributes {
-    id: number;
-    userId: number;
-    key: string;
-    value: string;
-    createdBy: number;
-    updatedBy: number
+    id!: number;
+    userId!: number;
+    key!: string;
+    value!: string;
+    createdBy!: number;
+    updatedBy!: number
 }
 
 UserMeta.init({

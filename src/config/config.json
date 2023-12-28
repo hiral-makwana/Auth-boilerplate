@@ -1,5 +1,5 @@
 {
-   "PORT": 7000,
+   "PORT": 8000,
    "JWT_SECRET": "ja932uwsjsiw98hjsdh090",
    "JWT_EXPIRATION_TIME": "1h",
    "DEFAULT_ROUTE": "/",

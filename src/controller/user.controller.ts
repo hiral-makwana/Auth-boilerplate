@@ -1,11 +1,11 @@
 import { Request } from "express";
 import { User, status } from '../models/user.model';
 import bcrypt from 'bcrypt';
-import { sendEmail, updateEmailConfig } from '../helper/emailConfig'
+import { sendEmail, updateEmailConfig } from '../helper/email.helper'
 import { keyName, requestType } from "../helper/constant";
 import { generateRandomOtp, generateHash, generateOtpHtmlMessage } from '../helper/utils'
 import { UserMeta } from '../models/userMeta.model';
-import { generateToken } from '../helper/jwtToken';
+import { generateToken } from '../helper/auth.helper';
 import config from '../config/config.json';
 import Sequelize, { Op } from 'sequelize';
 import path from 'path';
@@ -55,8 +55,8 @@ const resendOtpTemplatePath = path.join('src', 'resendOtpTemplate.html');
 */
 export const getListOfUser = async (req: Request, res: any) => {
     try {
-        let allData: any = await User.findAll({})
-        return res.status(200).send({ status: true, message: res.__("SUCCESS_FETCHED"), data: allData })
+        let getUsersData: any = await User.findAll({})
+        return res.status(200).send({ status: true, message: res.__("SUCCESS_FETCHED"), data: getUsersData })
     } catch (e) {
         console.log(e);
         return res.status(500).send({ status: false, message: e.message })

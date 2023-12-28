@@ -1,7 +1,6 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
-import { dynamicFieldFunction } from '../helper/utils';
-import i18n from '../helper/i18n';
+import i18n from '../helper/locale.helper';
 import { ObjectSchema } from 'joi';
 import { passwordRegex } from '../helper/constant';
 
@@ -14,7 +13,7 @@ const validateSchema = (schema: ObjectSchema<any>) => {
         try {
             let messages: any;
             // Dynamically load messages based on the selected language
-            messages = await import(`../messages/${language}`);
+            messages = await import(`./messages/${language}`);
             celebrate({ [Segments.BODY]: schema }, {
                 abortEarly: false,
                 messages: messages.default || {},
@@ -41,13 +40,7 @@ export default {
             roleId: Joi.number()
         }).unknown();
 
-        let customSchema = Joi.object()
-        if (customFields && Object.keys(customFields).length > 0) {
-            const schemas = dynamicFieldFunction(customFields, validate)
-            customSchema = Joi.object().keys(Object.assign({}, ...schemas));
-        }
-        const schema = defaultSchema.concat(customSchema)
-        return validateSchema(schema);
+        return validateSchema(defaultSchema);
     },
 
     verifyOTP: () => validateSchema(

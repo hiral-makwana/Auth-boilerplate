@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import userAttributes from './interface/User.interface';
+import userAttributes from './interface/user.interface';
 import { sequelize } from "./index";
 import { passwordRegex } from '../helper/constant';
 
@@ -12,15 +12,15 @@ export enum status {
 
 export class User extends Model<userAttributes>
     implements userAttributes {
-    id: number;
-    firstName: string;
-    email: string;
-    password: string;
-    status: string;
-    isVerified: boolean;
-    roleId: number;
-    profileImage: string;
-    isDeleted: boolean;
+    public id!: number
+    firstName!: string
+    email!: string
+    password!: string
+    status!: string
+    isVerified!: boolean
+    roleId!: number
+    profileImage!: string
+    isDeleted!: boolean
 }
 
 User.init(
