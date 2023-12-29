@@ -1,6 +1,6 @@
 # node-auth-base-ts
 
-NodeAuthBase-JS is an authentication library for Node.js that simplifies the implementation of authentication-related functionalities in your Express applications. It provides tools for managing Sequelize models, creating Express routes, initializing email configurations, and setting up Swagger documentation.
+node-auth-base-ts is an authentication library for Node.js that simplifies the implementation of authentication-related functionalities in your Express applications. It provides tools for managing Sequelize models, creating Express routes, initializing email configurations, and setting up Swagger documentation.
 
 ## Installation
 
