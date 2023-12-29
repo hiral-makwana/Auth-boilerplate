@@ -176,7 +176,7 @@ To add a custom email template for `/register` and `/forgotPassword` APIs, defin
 }
 ```
 ## Custom Validation message
-To add a custom validation message for any field, add a messages property to the request data. For details of validation keys, check the [`Additional Details section`](#Additional Details).
+To add a custom validation message for any field, add a messages property to the request data. For details of validation keys, check the [Additional Details section](#Additional Details).
 
 ```json
 {
