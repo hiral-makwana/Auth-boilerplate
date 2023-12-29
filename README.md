@@ -5,13 +5,13 @@ An authentication library for Node.js simplifies the implementation of authentic
 ## Installation
 
 ```bash
-npx auth-boilerplate-js <project-name>
+npx node-auth-base-ts <project-name>
 ```
 ## Manual Installation
 Clone the repo: 
 ```bash
-git clone --depth 1 https://github.com/hiral-makwana/Auth-boilerplate-js.git
-cd Auth-boilerplate-js
+git clone --depth 1 https://github.com/hiral-makwana/node-auth-base-ts.git
+cd <project-name>
 npx rimraf ./.git
 ```
 ## Environment variables
