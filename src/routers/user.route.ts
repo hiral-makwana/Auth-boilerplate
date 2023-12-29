@@ -7,7 +7,7 @@ import { upload } from '../helper/media.helper';
 const router = Router();
 
 /** Get all users */
-router.get('/list', userController.getListOfUser);
+router.get('/list', verifyToken, userController.getListOfUser);
 
 /** Change Password after login */
 router.post('/changePassword', userValidator.changePw(), verifyToken, userController.changePassword);
@@ -262,7 +262,7 @@ export default router;
 * tags:
 *   name: User
 *   description: User-related APIs
-* /profile-upload/{userId}:
+* /upload/{userId}:
 *   post:
 *     summary: Upload profile image for a user
 *     tags: [User]

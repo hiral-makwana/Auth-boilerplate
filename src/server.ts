@@ -3,7 +3,6 @@
  * @description Main file for setting up the Express server and defining routes.
  */
 import express, { Application, Request, Response } from 'express';
-import http from 'http';
 import apiRoutes from './routers/index.route';
 import swaggerRoute from './routers/swaggerRoute';
 import config from './config/config.json';
@@ -33,7 +32,7 @@ app.use('/', apiRoutes, swaggerRoute); // update value of API_BASE_PREFIX in con
 
 // Handle error message
 app.use(handleErrorMessage);
-app.use('/src/pictures/', express.static(__dirname + '/pictures/'));
+app.use('/src/pictures/', express.static(__dirname + '/uploads/'));
 
 // Define a simple root route
 app.get('/', (req: Request, res: Response) => {

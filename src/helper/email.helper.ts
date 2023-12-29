@@ -9,12 +9,12 @@ let emailConfig = null;
  */
 
 emailConfig = {
-    host: config.mailConfig && config.mailConfig.host ? config.mailConfig.host : 'localhost',
-    port: config.mailConfig && config.mailConfig.port ? config.mailConfig.port : 25,
-    //secure: config.mailConfig && config.mailConfig?.secure ? config.mailConfig.secure : false,
+    host: config.SMTP_CONFIG && config.SMTP_CONFIG.host ? config.SMTP_CONFIG.host : 'localhost',
+    port: config.SMTP_CONFIG && config.SMTP_CONFIG.port ? config.SMTP_CONFIG.port : 25,
+    //secure: config.SMTP_CONFIG && config.SMTP_CONFIG?.secure ? config.SMTP_CONFIG.secure : false,
     auth: {
-        user: config.mailConfig && config.mailConfig.user ? config.mailConfig.user : null,
-        pass: config.mailConfig && config.mailConfig.password ? config.mailConfig.password : null,
+        user: config.SMTP_CONFIG && config.SMTP_CONFIG.user ? config.SMTP_CONFIG.user : null,
+        pass: config.SMTP_CONFIG && config.SMTP_CONFIG.password ? config.SMTP_CONFIG.password : null,
     }
 };
 
@@ -33,14 +33,14 @@ function updateEmailConfig(config: any) {
         const configFileContent = fs.readFileSync(configPath, 'utf-8');
         const currentConfig = JSON.parse(configFileContent);
 
-        if (!currentConfig.mailConfig) {
+        if (!currentConfig.SMTP_CONFIG) {
             return { status: false, message: 'mailConfig object not found in the config file.' }
         }
 
-        currentConfig.mailConfig.host = config.host;
-        currentConfig.mailConfig.port = config.port;
-        currentConfig.mailConfig.user = config.user;
-        currentConfig.mailConfig.password = config.password;
+        currentConfig.SMTP_CONFIG.host = config.host;
+        currentConfig.SMTP_CONFIG.port = config.port;
+        currentConfig.SMTP_CONFIG.user = config.user;
+        currentConfig.SMTP_CONFIG.password = config.password;
 
         const updatedConfigContent = JSON.stringify(currentConfig, null, 2);
 

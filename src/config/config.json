@@ -6,16 +6,16 @@
    "API_BASE_PREFIX": "/",
    "BASE_URL": "localhost:7000",
    "HARD_DELETE": false,
-   "CUSTOM_TEMPLATE": true,
-   "UPLOAD_DIR": "src/pictures/",
-   "database": {
+   "CUSTOM_TEMPLATE": false,
+   "UPLOAD_DIR": "src/uploads/",
+   "DATABASE": {
       "host": "localhost",
       "dbName": "auth_apis",
       "dbUser": "root",
       "dbPassword": ""
    },
    "SMTP": true,
-   "mailConfig": {
+   "SMTP_CONFIG": {
       "host": "smtp.ethereal.email",
       "port": 587,
       "user": "oma.fisher43@ethereal.email",
