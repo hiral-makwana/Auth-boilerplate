@@ -10,7 +10,7 @@ const router = Router();
 router.get('/list', verifyToken, userController.getListOfUser);
 
 /** Change Password after login */
-router.post('/changePassword', userValidator.changePw(), verifyToken, userController.changePassword);
+router.post('/changePassword', userValidator.changePassword(), verifyToken, userController.changePassword);
 
 /** Check validations */
 router.post('/checkValidation', userValidator.checkValid(), verifyToken, userController.checkValidation);

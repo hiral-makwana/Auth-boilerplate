@@ -1,26 +1,29 @@
 import { Router } from 'express';
-import * as userController from '../controller/user.controller';
-import userValidator from '../validator/user.validator';
+import * as authController from '../controller/auth.controller';
+import authValidator from '../validator/auth.validator';
 
 const router = Router();
 
 /** User Registration */
-router.post('/register', userValidator.registerUser(), userController.registerUser);
+router.post('/register', authValidator.registerUser(), authController.registerUser);
 
 /** Verify OTP received in email */
-router.post('/verifyOtp', userValidator.verifyOTP(), userController.verifyOTP);
+router.post('/verifyOtp', authValidator.verifyOTP(), authController.verifyOTP);
 
 /** Resend OTP on email */
-router.post('/resendOtp', userValidator.resendOTP(), userController.resendOTP);
+router.post('/resendOtp', authValidator.resendOTP(), authController.resendOTP);
 
 /** Forgot password using Email */
-router.post('/forgotPassword', userValidator.forgotPw(), userController.forgotPassword);
+router.post('/forgotPassword', authValidator.forgotPassword(), authController.forgotPassword);
 
 /** Reset password */
-router.post('/resetPassword', userValidator.resetPw(), userController.resetPassword);
+router.post('/resetPassword', authValidator.resetPassword(), authController.resetPassword);
 
 /** Login */
-router.post('/login', userValidator.login(), userController.logIn);
+router.post('/login', authValidator.login(), authController.logIn);
+
+/**Refresh token */
+router.post('/refreshToken', authValidator.refreshTokens(), authController.refreshToken);
 
 export default router;
 
@@ -242,3 +245,53 @@ export default router;
 *               status: false
 *               message: Internal server error.
 */
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: User authentication APIs
+ * /refreshToken:
+ *   post:
+ *     summary: Refresh an authentication token
+ *     tags: [Authentication]
+ *     requestBody:
+ *       description: Token to refresh
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             token: "your_token_here"
+ *     responses:
+ *       200:
+ *         description: Successful response with refreshed token
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: true
+ *               message: Token reset successfully
+ *               data:
+ *                 userId: 123
+ *                 email: "user@example.com"
+ *                 token: "new_refreshed_token_here"
+ *       401:
+ *         description: Invalid or expired token
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: Token expired or invalid
+ *       404:
+ *         description: Token not found in the request
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: Token not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: Server error during token refresh
+ */

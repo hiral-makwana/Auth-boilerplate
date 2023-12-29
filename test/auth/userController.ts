@@ -1,5 +1,3 @@
-// test/userController.test.ts
-
 import * as chai from 'chai';
 import chaiHttp from 'chai-http';
 import { Express } from 'express';
@@ -12,7 +10,7 @@ import { generateToken } from '../../src/helper/auth.helper';
 import * as bcrypt from 'bcrypt';
 // import { describe, it, beforeEach, afterEach } from ' ';
 const app = require('../src/server');
-console.log(User)
+
 chai.use(chaiHttp);
 const { expect } = chai;
 

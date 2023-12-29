@@ -29,76 +29,17 @@ const validateSchema = (schema: ObjectSchema<any>) => {
     };
 };
 export default {
-    registerUser: (customFields?: Object, validate?: Boolean) => {
-        const defaultSchema = Joi.object().keys({
-            firstName: Joi.string().required().allow("", null),
-            email: Joi.string().email().required(),
-            password: Joi.string().pattern(passwordRegex)
-                .message('Password must contain upper, lower, digit, 8+ chars.').required(),
-            status: Joi.string(),
-            isVerified: Joi.number(),
-            roleId: Joi.number()
-        }).unknown();
-
-        return validateSchema(defaultSchema);
-    },
-
-    verifyOTP: () => validateSchema(
-        Joi.object().keys({
-            type: Joi.string(),
-            email: Joi.string().email().required(),
-            otp: Joi.number().required()
-        })
-    ),
-
-    resendOTP: () => validateSchema(
-        Joi.object().keys({
-            type: Joi.string(),
-            email: Joi.string().email().required()
-        })
-    ),
-
-    forgotPw: () => validateSchema(
-        Joi.object().keys({
-            email: Joi.string().email().required()
-        })
-    ),
-
-    resetPw: () => validateSchema(
-        Joi.object().keys({
-            email: Joi.string().email().required(),
-            password: Joi.string().pattern(passwordRegex)
-                .message('Password must contain upper, lower, digit, 8+ chars.').required()
-        })
-    ),
-
-    login: () => validateSchema(
-        Joi.object().keys({
-            email: Joi.string().email().required(),
-            password: Joi.string().required()
-        })
-    ),
-
-    changePw: () => validateSchema(
+    changePassword: () => validateSchema(
         Joi.object().keys({
             oldPassword: Joi.string().required(),
             newPassword: Joi.string().pattern(passwordRegex)
-                .message('Password must contain upper, lower, digit, 8+ chars.').required()
+                .message('Password should include at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.').required()
         })
     ),
 
     checkValid: () => validateSchema(
         Joi.object().keys({
             value: Joi.any().required()
-        })
-    ),
-
-    emailConfig: () => validateSchema(
-        Joi.object().keys({
-            host: Joi.string().required(),
-            port: Joi.number().required(),
-            user: Joi.string().required(),
-            password: Joi.string().required()
         })
     )
 }
