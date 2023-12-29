@@ -219,4 +219,3 @@ To add a custom validation message for any field, add a messages property to the
 | any.error      | Specifies custom error messages for the property.    |
 | any.label      | Specifies a custom label for the property in error messages.|
 | any.messages   | Specifies custom validation error messages.         |
-
