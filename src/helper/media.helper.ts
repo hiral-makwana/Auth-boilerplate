@@ -1,13 +1,12 @@
 import path from 'path'
 import multer from 'multer'
 import fs from 'fs';
-import config from '../config/config.json';
 
-const uploadFolder = config.UPLOAD_DIR || 'uploads/';
+const uploadFolder = global.config.UPLOAD_DIR || 'uploads/';
 if (!fs.existsSync(uploadFolder)) {
   fs.mkdirSync(uploadFolder);
 }
-
+// Set up multer storage and file filtering
 const storage = multer.diskStorage({
   destination: function (req: any, file: any, cb: any) {
     cb(null, uploadFolder);

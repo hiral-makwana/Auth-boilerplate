@@ -5,7 +5,6 @@ import { keyName, requestType } from "../helper/constant";
 import { generateRandomOtp, generateHash, generateOtpHtmlMessage } from '../helper/utils'
 import { UserMeta } from '../models/userMeta.model';
 import { generateToken } from '../helper/auth.helper';
-import config from '../config/config.json';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
@@ -49,7 +48,7 @@ export const registerUser = async (req: any, res: any) => {
                 }
                 await UserMeta.create(metaObj)
                 let customOtpHtmlTemplate = otpHtmlTemplatePath
-                if (config.CUSTOM_TEMPLATE == true) {
+                if (global.config.CUSTOM_TEMPLATE == true) {
                     if (reqData.customOtpHtmlTemplate == undefined || reqData.customOtpHtmlTemplate == '') {
                         return res.status(200).send({ status: true, message: res.__("TEMPLATE_NOT_DEFINE") })
                     }
@@ -61,7 +60,7 @@ export const registerUser = async (req: any, res: any) => {
                     username: jsonObj.firstName,
                     otpCode: getRandomOtp
                 }
-                const otpHtmlMessage = await generateOtpHtmlMessage(jsonObj.email, config.CUSTOM_TEMPLATE, customOtpHtmlTemplate, "Registration done successfully.Here is your OTP for varification.", templatedata);
+                const otpHtmlMessage = await generateOtpHtmlMessage(jsonObj.email, global.config.CUSTOM_TEMPLATE, customOtpHtmlTemplate, "Registration done successfully.Here is your OTP for varification.", templatedata);
 
                 return res.status(200).send({ status: true, message: res.__("SUCCESS_CREATE") })
             }
@@ -159,7 +158,7 @@ export const resendOTP = async (req: any, res: any) => {
 
         // Send the new OTP to the user's email
         let customTemplate = resendOtpTemplatePath
-        if (config.CUSTOM_TEMPLATE == true) {
+        if (global.config.CUSTOM_TEMPLATE == true) {
             if (customOtpHtmlTemplate == undefined || customOtpHtmlTemplate == '') {
                 return res.status(200).send({ status: true, message: res.__("TEMPLATE_NOT_DEFINE") })
             }
@@ -171,7 +170,7 @@ export const resendOTP = async (req: any, res: any) => {
             username: user.firstName,
             otpCode: newOTP
         }
-        const otpHtmlMessage = await generateOtpHtmlMessage(user.email, config.CUSTOM_TEMPLATE, customTemplate, "OTP Verification.", templatedata);
+        const otpHtmlMessage = await generateOtpHtmlMessage(user.email, global.config.CUSTOM_TEMPLATE, customTemplate, "OTP Verification.", templatedata);
 
         return res.status(200).json({
             status: true,
@@ -330,7 +329,7 @@ export const refreshToken = async (req: any, res: any) => {
             });
         }
 
-        jwt.verify(token, config.JWT_SECRET, (err: any, user: any) => {
+        jwt.verify(token, global.config.JWT_SECRET, (err: any, user: any) => {
             if (err) {
                 if (err.name === 'TokenExpiredError') {
                     return res.status(401).json({
@@ -358,6 +357,7 @@ export const refreshToken = async (req: any, res: any) => {
             });
         });
     } catch (e) {
+        console.log(e);
         return res.status(500).json({
             status: false,
             message: res.__("SERVER_ERR") + e.message,

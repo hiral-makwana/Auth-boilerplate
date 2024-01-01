@@ -1,10 +1,7 @@
-import express, { Router } from 'express';
-import authRoutes from './auth.route';
-import userRoutes from './user.route';
+import publicRoutes from './public'
+import privateRoutes from './private'
 
-const routes: Router = express.Router();
-
-routes.use('/', authRoutes);
-routes.use('/', userRoutes);
-
-export default routes;
+export {
+    privateRoutes,
+    publicRoutes
+}

@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import config from '../config/config.json';
 
-export function verifyToken(req: any, res: any, next: any) {
+export function userAuth(req: any, res: any, next: any) {
     const { authorization } = req.headers
     if (authorization && authorization.startsWith("Bearer")) {
         try {
@@ -14,7 +13,7 @@ export function verifyToken(req: any, res: any, next: any) {
                     });
                 }
 
-                jwt.verify(token, config.JWT_SECRET, (err: any, decodedToken: any) => {
+                jwt.verify(token, global.config.JWT_SECRET, (err: any, decodedToken: any) => {
                     if (err) {
                         if (err.name === 'TokenExpiredError') {
                             return res.status(401).json({

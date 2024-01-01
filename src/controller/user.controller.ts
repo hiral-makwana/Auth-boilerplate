@@ -2,7 +2,6 @@ import { Request } from "express";
 import { User } from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { generateHash } from '../helper/utils';
-import config from '../config/config.json';
 import Sequelize, { Op } from 'sequelize';
 
 export const getListOfUser = async (req: Request, res: any) => {
@@ -84,21 +83,6 @@ export const checkValidation = async (req: any, res: any) => {
         // Check if the specified value exists in any field of the user table
         const existingUser = await User.findOne({ where: query });
 
-        //check value using given key
-        // const keyExists = await User.findOne({ where: { [key]: value } });
-        // if (keyExists) {
-        //     const fieldWithValue = Object.keys(keyExists.dataValues).find(
-        //         (field) => keyExists.dataValues[field] === value
-        //     );
-
-        //     if (fieldWithValue) {
-        //         return res.status(400).json({
-        //             status: false,
-        //             message: res.__("VALUE_EXIST") + ` ${fieldWithValue}`,
-        //         });
-        //     }
-        // }
-
         if (existingUser) {
             // Determine the field where the value was found
             const foundField = userAttributes.find(field => existingUser[field] === value);
@@ -131,7 +115,7 @@ export const deleteUser = async (req: any, res: any) => {
                 message: res.__("USER_NOT_FOUND"),
             });
         }
-        if (!config.HARD_DELETE) {
+        if (!global.config.HARD_DELETE) {
             const modelAttributes = Object.keys(User.getAttributes());
             if (!modelAttributes.includes('isDeleted')) {
                 return res.status(500).json({ status: false, message: res.__("FIELD_NOT_FOUND") });
@@ -187,7 +171,7 @@ export const profileUpload = async (req: any, res: any) => {
         if (updatedRows === 0) {
             return res.status(404).json({ status: false, message: res.__('USER_NOT_FOUND') });
         }
-        return res.status(200).json({ status: true, message: res.__('IMAGE_UPLOADED'), data: config.BASE_URL + `/${profileImage.destination}` + profileImage.filename });
+        return res.status(200).json({ status: true, message: res.__('IMAGE_UPLOADED'), data: global.config.BASE_URL + `/${profileImage.destination}` + profileImage.filename });
     } catch (e) {
         console.error(e);
         return res.status(500).json({

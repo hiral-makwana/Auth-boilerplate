@@ -1,5 +1,4 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import config from '../config/config.json';
 let definition: any;
 
 definition = {
@@ -20,10 +19,10 @@ definition = {
     },
     servers: [
         {
-            url: config.DEFAULT_ROUTE,
+            url: global.config.DEFAULT_ROUTE,
         },
         {
-            url: config.API_BASE_PREFIX,
+            url: global.config.API_BASE_PREFIX,
         },
     ]
 }

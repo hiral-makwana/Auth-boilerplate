@@ -3,19 +3,18 @@
 import fs from 'fs';
 import path from 'path';
 import { Sequelize, Op, QueryTypes } from 'sequelize';
-import config from '../config/config.json';
 
 const basename = path.basename(__filename);
 const db: any = {};
 
 // Create a new Sequelize instance for database connection
 const sequelize = new Sequelize(
-    config.DATABASE.dbName,
-    config.DATABASE.dbUser,
-    config.DATABASE.dbPassword,
+    global.config.DATABASE.name,
+    global.config.DATABASE.username,
+    global.config.DATABASE.password,
     {
         dialect: 'mysql',
-        host: config.DATABASE.host,
+        host: global.config.DATABASE.host,
         logging: false,
     }
 );

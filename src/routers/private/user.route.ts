@@ -1,28 +1,27 @@
 import { Router } from 'express';
-import * as userController from '../controller/user.controller';
-import userValidator from '../validator/user.validator';
-import { verifyToken } from '../middleware/auth';
-import { upload } from '../helper/media.helper';
+import * as userController from '../../controller/user.controller';
+import userValidator from '../../validator/user.validator';
+import { upload } from '../../helper/media.helper';
 
 const router = Router();
 
 /** Get all users */
-router.get('/list', verifyToken, userController.getListOfUser);
+router.get('/list', userController.getListOfUser);
 
 /** Change Password after login */
-router.post('/changePassword', userValidator.changePassword(), verifyToken, userController.changePassword);
+router.post('/changePassword', userValidator.changePassword(), userController.changePassword);
 
 /** Check validations */
-router.post('/checkValidation', userValidator.checkValid(), verifyToken, userController.checkValidation);
+router.post('/checkValidation', userValidator.checkValid(), userController.checkValidation);
 
 /** Delete user API */
-router.delete('/deleteUser/:userId', verifyToken, userController.deleteUser);
+router.delete('/deleteUser/:userId', userController.deleteUser);
 
 /** HTML to String */
 router.post('/htmlToString', userController.convertHtmlToString);
 
 /** Upload Profile */
-router.post('/upload/:userId', verifyToken, upload.single('avatar'), userController.profileUpload);
+router.post('/upload/:userId', upload.single('avatar'), userController.profileUpload);
 
 export default router;
 
