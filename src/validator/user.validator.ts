@@ -1,33 +1,7 @@
-import { celebrate, Joi, Segments } from 'celebrate';
-import { Request, Response, NextFunction } from 'express-serve-static-core';
-import i18n from '../helper/locale.helper';
-import { ObjectSchema } from 'joi';
+import { Joi } from 'celebrate';
 import { passwordRegex } from '../helper/constant';
+import { validateSchema } from '../helper/utils';
 
-const validateSchema = (schema: ObjectSchema<any>) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-        const language = req.headers['accept-language'] || 'en';
-
-        // Set the language for i18n
-        i18n.setLocale(language);
-        try {
-            let messages: any;
-            // Dynamically load messages based on the selected language
-            messages = await import(`./messages/${language}`);
-            celebrate({ [Segments.BODY]: schema }, {
-                abortEarly: false,
-                messages: messages.default || {},
-            })(req, res, next);
-        } catch (error) {
-            console.error(`Error loading messages for language ${language}:`, error);
-            // Default to an empty object if messages cannot be loaded
-            celebrate({ [Segments.BODY]: schema }, {
-                abortEarly: false,
-                messages: {},
-            })(req, res, next);
-        }
-    };
-};
 export default {
     changePassword: () => validateSchema(
         Joi.object().keys({

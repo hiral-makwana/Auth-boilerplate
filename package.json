@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.ts",
   "bin": {
-    "auth-boilerplate": "src/bin/index.js"
+    "node-auth-base-ts": "src/bin/index.js"
   },
   "scripts": {    
     "dev": "cross-env NODE_ENV=development ts-node --files ./src/server.ts",

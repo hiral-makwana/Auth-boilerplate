@@ -14,7 +14,6 @@ const util = require('util');
 const path = require('path');
 const fs = require('fs');
 const inquirer = require("inquirer");
-const { createReadme } = require('./readme');
 
 // Utility functions
 const exec = util.promisify(require('child_process').exec);
@@ -125,7 +124,8 @@ async function setup() {
         existingPackageJson.author = answers.author;
         existingPackageJson.description = answers.description;
         existingPackageJson.version = "1.0.0";
-
+        delete existingPackageJson.repository
+        
         // Write the updated package.json file
         fs.writeFileSync(packageJsonPath, JSON.stringify(existingPackageJson, null, 2));
 

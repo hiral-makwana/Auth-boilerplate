@@ -320,8 +320,14 @@ export const logIn = async (req: any, res: any) => {
 
 export const refreshToken = async (req: any, res: any) => {
     try {
-        const { token } = req.body;
+        const { type, token } = req.body;
 
+        if (type !== requestType.REFRESH) {
+            return res.status(400).json({
+                status: false,
+                message: res.__("INVALID_TYPE") + `'${requestType.REFRESH}'`,
+            });
+        }
         if (!token) {
             return res.status(404).json({
                 status: false,
