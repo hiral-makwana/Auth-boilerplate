@@ -1,12 +1,10 @@
 {
-  "name": "node-auth-base-ts",
-  "version": "1.0.3",
+  "name": "create-node-auth-base-ts",
+  "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
-  "bin": {
-    "node-auth-base-ts": "src/bin/index.js"
-  },
-  "scripts": {    
+  "bin": "src/bin/index.js",
+  "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node --files ./src/server.ts",
     "staging": "cross-env NODE_ENV=staging ts-node --files ./src/server.ts",
     "testing": "cross-env NODE_ENV=testing ts-node --files ./src/server.ts",
@@ -16,8 +14,6 @@
   },
   "dependencies": {
     "@types/express": "^4.17.20",
-    "@types/mocha": "^10.0.6",
-    "@types/sinon": "^17.0.2",
     "@types/swagger-jsdoc": "^6.0.3",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -30,21 +26,28 @@
     "i18n": "^0.15.1",
     "inquirer": "8.2",
     "jsonwebtoken": "^9.0.2",
-    "mocha": "^10.2.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.5",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
     "sequelize": "^6.35.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0",
-    "ts-node": "^10.9.1"
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.1",
+    "@types/chai": "^4.3.11",
+    "@types/jest": "^29.5.11",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.5",
+    "@types/sinon": "^17.0.2",
+    "@types/sinon-chai": "^3.2.12",
     "chai": "^4.3.10",
     "chai-http": "^4.4.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   }

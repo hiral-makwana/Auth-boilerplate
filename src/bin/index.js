@@ -14,7 +14,7 @@ const util = require('util');
 const path = require('path');
 const fs = require('fs');
 const inquirer = require("inquirer");
-
+const { execSync } = require('child_process');
 // Utility functions
 const exec = util.promisify(require('child_process').exec);
 
@@ -52,7 +52,7 @@ if (process.argv.length < 3) {
 const ownPath = process.cwd();
 const folderName = process.argv[2];
 const appPath = path.join(ownPath, folderName);
-const repo = 'https://github.com/hiral-makwana/NodeAuthBase-JS.git';
+const repo = 'https://github.com/hiral-makwana/node-auth-base-ts.git';
 
 // Check if directory already exists
 try {
@@ -96,9 +96,11 @@ async function setup() {
     try {
         const answers = await packagePrompts();
         // Clone repo
-        console.log(`Downloading files from repo ${repo}`);
-        await runCmd(`git clone --depth 1 ${repo} ${folderName}`);
-        console.log('Cloned successfully.');
+        // console.log(`Downloading files from repo ${repo}`);
+        // await runCmd(`git clone --depth 1 ${repo} ${folderName}`);
+        // console.log('Cloned successfully.');
+        const templateDir = path.resolve(__dirname, "../../");
+        fs.cpSync(templateDir, appPath, { recursive: true });
         console.log('');
 
         // Change directory
@@ -125,12 +127,16 @@ async function setup() {
         existingPackageJson.description = answers.description;
         existingPackageJson.version = "1.0.0";
         delete existingPackageJson.repository
-        
+
         // Write the updated package.json file
         fs.writeFileSync(packageJsonPath, JSON.stringify(existingPackageJson, null, 2));
 
         await createReadme(answers, appPath);
+        const binDirPath = path.join(appPath, 'src/bin');
+        fs.rmSync(binDirPath, { recursive: true });
 
+        // Remove the '.git' directory
+        execSync('npx rimraf ./.git');
         console.log('Installation is now complete!');
         console.log();
 

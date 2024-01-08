@@ -71,3 +71,5 @@ User.init(
         tableName: "users",
         modelName: 'User'
     });
+
+    export default User;

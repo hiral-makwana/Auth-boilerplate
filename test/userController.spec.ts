@@ -1,25 +1,24 @@
 import * as chai from 'chai';
 import chaiHttp from 'chai-http';
-import { Express } from 'express';
 import sinon, { SinonSandbox } from 'sinon';
-import { User } from '../../src/models/user.model';
-import { UserMeta } from '../../src/models/userMeta.model';
-import { generateRandomOtp, generateHash } from '../../src/helper/utils';
-import { sendEmail } from '../../src/helper/email.helper';
-import { generateToken } from '../../src/helper/auth.helper';
+import User from './models/user.model';
+import { UserMeta } from './models/userMeta.model';
+import { generateRandomOtp, generateHash } from './helper/utils';
+import { sendEmail } from './helper/email.helper';
+import { generateToken } from './helper/auth.helper';
 import * as bcrypt from 'bcrypt';
-// import { describe, it, beforeEach, afterEach } from ' ';
-const app = require('../src/server');
+import { describe, it, beforeEach, afterEach } from 'mocha';
+import app from './server';
 
 chai.use(chaiHttp);
-const { expect } = chai;
+import { expect } from 'chai';
 
 describe('User Controller', () => {
     let sandbox: SinonSandbox;
 
     // Before each test, create a Sinon sandbox
     beforeEach(() => {
-        const sandbox: SinonSandbox = sinon.createSandbox();
+        sandbox = sinon.createSandbox();
     });
 
     // After each test, restore the sandbox to make sure stubs are removed

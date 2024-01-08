@@ -8,22 +8,22 @@ const router = Router();
 router.post('/register', authValidator.registerUser(), authController.registerUser);
 
 /** Verify OTP received in email */
-router.post('/verifyOtp', authValidator.verifyOTP(), authController.verifyOTP);
+router.post('/verify-otp', authValidator.verifyOTP(), authController.verifyOTP);
 
 /** Resend OTP on email */
-router.post('/resendOtp', authValidator.resendOTP(), authController.resendOTP);
+router.post('/resend-otp', authValidator.resendOTP(), authController.resendOTP);
 
 /** Forgot password using Email */
-router.post('/forgotPassword', authValidator.forgotPassword(), authController.forgotPassword);
+router.post('/forgot-password', authValidator.forgotPassword(), authController.forgotPassword);
 
 /** Reset password */
-router.post('/resetPassword', authValidator.resetPassword(), authController.resetPassword);
+router.post('/reset-password', authValidator.resetPassword(), authController.resetPassword);
 
 /** Login */
 router.post('/login', authValidator.login(), authController.logIn);
 
 /**Refresh token */
-router.post('/refreshToken', authValidator.refreshTokens(), authController.refreshToken);
+router.post('/refresh-token', authValidator.refreshTokens(), authController.refreshToken);
 
 export default router;
 

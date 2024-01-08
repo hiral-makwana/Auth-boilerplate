@@ -9,19 +9,19 @@ const router = Router();
 router.get('/list', userController.getListOfUser);
 
 /** Change Password after login */
-router.post('/changePassword', userValidator.changePassword(), userController.changePassword);
+router.post('/change-password', userValidator.changePassword(), userController.changePassword);
 
 /** Check validations */
-router.post('/checkValidation', userValidator.checkValid(), userController.checkValidation);
+router.post('/check-validation', userValidator.checkValid(), userController.checkValidation);
 
 /** Delete user API */
-router.delete('/deleteUser/:userId', userController.deleteUser);
+router.delete('/delete-user/:userId', userController.deleteUser);
 
 /** HTML to String */
-router.post('/htmlToString', userController.convertHtmlToString);
+router.post('/html-to-string', userController.convertHtmlToString);
 
 /** Upload Profile */
-router.post('/upload/:userId', upload.single('avatar'), userController.profileUpload);
+router.post('/profile-upload/:userId', upload.single('avatar'), userController.profileUpload);
 
 export default router;
 
