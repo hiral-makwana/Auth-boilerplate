@@ -5,7 +5,9 @@ node-auth-base-ts is an authentication library designed for Node.js, offering st
 ## Installation
 
 ```bash
-npx node-auth-base-ts <project-name>
+npx create-node-auth-base-ts <project-name> or
+
+npm init node-auth-base-ts <project-name>
 ```
 ## Manual Installation
 Clone the repo: 

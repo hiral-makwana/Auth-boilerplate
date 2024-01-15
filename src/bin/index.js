@@ -42,9 +42,9 @@ async function hasYarn() {
 if (process.argv.length < 3) {
     console.log('Please specify the target project directory.');
     console.log('For example:');
-    console.log('    npx create-nodejs-app my-app');
+    console.log('    npx create-node-auth-base-ts my-app');
     console.log('    OR');
-    console.log('    npm init nodejs-app my-app');
+    console.log('    npm init node-auth-base-ts my-app');
     process.exit(1);
 }
 
@@ -71,19 +71,19 @@ const questions = [
     {
         type: "input",
         name: "name",
-        message: "Name of the project",
+        message: "Project Name:",
         validate: (name) => typeof name === "string",
     },
     {
         type: "input",
         name: "author",
-        message: "Name of the author",
+        message: "Author Name:",
         validate: (name) => typeof name === "string",
     },
     {
         type: "input",
         name: "description",
-        message: "Description",
+        message: "Description:",
         validate: (name) => typeof name === "string",
     }
 ];

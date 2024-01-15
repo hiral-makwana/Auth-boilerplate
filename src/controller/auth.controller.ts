@@ -8,8 +8,8 @@ import { generateToken } from '../helper/auth.helper';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-const otpHtmlTemplatePath = path.join('src', 'otpTemplate.html');
-const resendOtpTemplatePath = path.join('src', 'resendOtpTemplate.html');
+const otpHtmlTemplatePath = path.join('src/email_templates', 'otpTemplate.html');
+const resendOtpTemplatePath = path.join('src/email_templates', 'resendOtpTemplate.html');
 
 export const registerUser = async (req: any, res: any) => {
     try {
